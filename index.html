@@ -1,118 +1,1143 @@
-html
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>맛배틀 아레나 (Food Battle Arena)</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              orange: '#FF5A1F',
-              yellow: '#FFB800',
-              dark: '#1F2937'
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* 3D 원통형(Cylinder) 아레나 뷰포트 */
-    .cylinder-viewport {
-      perspective: 1200px;
-      perspective-origin: 50% 50%;
-      overflow: hidden;
-      touch-action: pan-y;
-    }
-    .cylinder-container {
-      transform-style: preserve-3d;
-      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .cylinder-card {
-      backface-visibility: hidden;
-      transform-origin: center center;
-    }
-    /* 모바일 스크롤바 숨김 */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>맛배틀 아레나 (Food Battle Arena)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#FF5A1F',
+              yellow: '#FFB800',
+              dark: '#1F2937'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 3D 원통형(Cylinder) 아레나 뷰포트 */
+    .cylinder-viewport {
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+    .cylinder-container {
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .cylinder-card {
+      backface-visibility: hidden;
+      transform-origin: center center;
+    }
+    /* 모바일 스크롤바 숨김 */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
 </head>
-<body class="bg-stone-100 text-stone-800 font-sans pb-28 select-none antialiased min-h-screen"> 
+<body class="bg-stone-100 text-stone-800 font-sans pb-28 select-none antialiased min-h-screen">
 
-  <!-- 토스트 알림 컨테이너 (alert 대체 인앱 알림) -->
-  <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none w-11/12 max-w-sm"></div> 
+  <!-- 토스트 알림 컨테이너 (alert 대체 인앱 알림) -->
+  <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none w-11/12 max-w-sm"></div>
 
-  <!-- 1. 상단 고정 헤더 -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 px-4 py-3 flex items-center justify-between shadow-xs">
-    <div class="flex items-center space-x-2.5">
-      <!-- 관리자 모드 트리거 (3회 연속 탭 시 사장님 비밀번호 1214 창 오픈) -->
-      <button id="adminTriggerBtn" aria-label="관리자 모드 열기" class="w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg active:scale-90 transition-transform border border-orange-200/80 shadow-2xs">
-        <i class="fa-solid fa-utensils"></i>
-      </button>
-      <div>
-        <h1 class="font-black text-lg text-stone-900 tracking-tight flex items-center gap-1.5 leading-none">
-          <span>맛배틀 아레나</span>
-        </h1>
-        <p class="text-[11px] text-stone-500 mt-1 font-medium">우리 식재료 최고의 꿀조합을 찾아라!</p>
-      </div>
-    </div> 
+  <!-- 1. 상단 고정 헤더 -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 px-4 py-3 flex items-center justify-between shadow-xs">
+    <div class="flex items-center space-x-2.5">
+      <!-- 관리자 모드 트리거 (3회 연속 탭 시 사장님 비밀번호 1214 창 오픈) -->
+      <button id="adminTriggerBtn" aria-label="관리자 모드 열기" class="w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg active:scale-90 transition-transform border border-orange-200/80 shadow-2xs">
+        <i class="fa-solid fa-utensils"></i>
+      </button>
+      <div>
+        <h1 class="font-black text-lg text-stone-900 tracking-tight flex items-center gap-1.5 leading-none">
+          <span>맛배틀 아레나</span>
+        </h1>
+        <p class="text-[11px] text-stone-500 mt-1 font-medium">우리 식재료 최고의 꿀조합을 찾아라!</p>
+      </div>
+    </div>
 
-    <!-- 우측: 주문확인 / 아랫줄 로그인 버튼 (인증 전/후 상태 전환) -->
-    <div id="authStatusArea">
-      <button onclick="openLoginModal()" class="text-xs bg-stone-900 hover:bg-stone-800 text-white font-bold px-3 py-1.5 rounded-xl flex items-center gap-2 shadow-sm active:scale-95 transition-all text-left">
-        <i class="fa-solid fa-receipt text-amber-400 text-xs shrink-0"></i>
-        <span class="flex flex-col leading-tight">
-          <span class="text-[10px] text-stone-300 font-medium">주문확인</span>
-          <span class="text-xs font-black text-white">로그인</span>
-        </span>
-      </button>
-    </div>
-  </header> 
+    <!-- 우측: 주문확인 / 아랫줄 로그인 버튼 (인증 전/후 상태 전환) -->
+    <div id="authStatusArea">
+      <button onclick="openLoginModal()" class="text-xs bg-stone-900 hover:bg-stone-800 text-white font-bold px-3 py-1.5 rounded-xl flex items-center gap-2 shadow-sm active:scale-95 transition-all text-left">
+        <i class="fa-solid fa-receipt text-amber-400 text-xs shrink-0"></i>
+        <span class="flex flex-col leading-tight">
+          <span class="text-[10px] text-stone-300 font-medium">주문확인</span>
+          <span class="text-xs font-black text-white">로그인</span>
+        </span>
+      </button>
+    </div>
+  </header>
 
-  <main class="max-w-md mx-auto space-y-3.5 pt-3 px-3.5"> 
+  <main class="max-w-md mx-auto space-y-3.5 pt-3 px-3.5">
 
-    <!-- 2. 한 줄 직관 이벤트 띠 배너 -->
-    <section onclick="handleStartChallenge()" class="cursor-pointer bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white rounded-2xl p-3.5 shadow-md flex items-center justify-between hover:opacity-95 active:scale-[0.99] transition-all">
-      <div class="flex items-center space-x-3 min-w-0">
-        <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shrink-0 border border-white/30">
-          🍳
-        </div>
-        <div class="truncate">
-          <h2 class="font-extrabold text-xs sm:text-sm leading-snug tracking-tight drop-shadow-xs truncate">
-            고객님이 주문하신 상품을 가장 맛있게 보여주세요!
-          </h2>
-          <p class="text-[11px] text-orange-100 font-medium truncate mt-0.5">
-            나만의 꿀조합 요리 올리고 경품 받기 ✨
-          </p>
-        </div>
-      </div>
-      <button type="button" class="shrink-0 bg-white text-orange-600 font-black text-xs px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1 active:scale-95 transition ml-2">
-        <span>도전</span>
-        <i class="fa-solid fa-chevron-right text-[10px]"></i>
-      </button>
-    </section> 
+    <!-- 2. 한 줄 직관 이벤트 띠 배너 -->
+    <section onclick="handleStartChallenge()" class="cursor-pointer bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white rounded-2xl p-3.5 shadow-md flex items-center justify-between hover:opacity-95 active:scale-[0.99] transition-all">
+      <div class="flex items-center space-x-3 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shrink-0 border border-white/30">
+          🍳
+        </div>
+        <div class="truncate">
+          <h2 class="font-extrabold text-xs sm:text-sm leading-snug tracking-tight drop-shadow-xs truncate">
+            고객님이 주문하신 상품을 가장 맛있게 보여주세요!
+          </h2>
+          <p class="text-[11px] text-orange-100 font-medium truncate mt-0.5">
+            나만의 꿀조합 요리 올리고 경품 받기 ✨
+          </p>
+        </div>
+      </div>
+      <button type="button" class="shrink-0 bg-white text-orange-600 font-black text-xs px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1 active:scale-95 transition ml-2">
+        <span>도전</span>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+      </button>
+    </section>
 
-    <!-- 3. 실시간 인기 요리 TOP 3 (리더보드) -->
-    <section class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200/80">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="font-extrabold text-sm text-stone-900 flex items-center gap-1.5">
-          <i class="fa-solid fa-ranking-star text-amber-500 text-base"></i>
-          <span>실시간 인기 요리 TOP 3</span>
-        </h3>
-        <span class="text-[10px] bg-stone-100 text-stone-500 font-semibold px-2 py-0.5 rounded-md">매시간 자동집계</span>
-      </div>
-      <div id="top3List" class="grid grid-cols-3 gap-2">
-        <!-- JS 동적 렌더링 -->
-      </div>
-    </section> 
+    <!-- 3. 실시간 인기 요리 TOP 3 (리더보드) -->
+    <section class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200/80">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-extrabold text-sm text-stone-900 flex items-center gap-1.5">
+          <i class="fa-solid fa-ranking-star text-amber-500 text-base"></i>
+          <span>실시간 인기 요리 TOP 3</span>
+        </h3>
+        <span class="text-[10px] bg-stone-100 text-stone-500 font-semibold px-2 py-0.5 rounded-md">매시간 자동집계</span>
+      </div>
+      <div id="top3List" class="grid grid-cols-3 gap-2">
+        <!-- JS 동적 렌더링 -->
+      </div>
+    </section>
 
-    <!-- 4. WEEKLY BATTLE 아레나 -->
-    <section class="bg-white rounded-2xl p
+    <!-- 4. WEEKLY BATTLE 아레나 -->
+    <section class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200/80">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-1.5">
+          <span class="text-xs font-black tracking-wider uppercase bg-orange-600 text-white px-2 py-0.5 rounded-md shadow-2xs">
+            WEEKLY BATTLE
+          </span>
+        </div>
+        <!-- 줄바꿈 없는 출전 카운터 뱃지 -->
+        <div id="participantBadge" class="text-xs font-black text-orange-600 bg-orange-50 border border-orange-200/70 px-2.5 py-1 rounded-full whitespace-nowrap shadow-2xs flex items-center gap-1">
+          <i class="fa-solid fa-fire text-orange-500 text-[11px]"></i>
+          <span id="participantCountText">총 5개 출전 중</span>
+        </div>
+      </div>
+
+      <!-- 3D 원통 캐러셀 뷰포트 (415px 높이로 잘림 현상 방지) -->
+      <div id="cylinderViewport" class="cylinder-viewport relative w-full h-[415px] flex items-center justify-center py-2">
+        <div id="cylinderContainer" class="cylinder-container relative w-[250px] h-[365px]">
+          <!-- JS 3D 카드 동적 생성 -->
+        </div>
+
+        <!-- 좌우 회전 컨트롤 화살표 버튼 -->
+        <button onclick="rotateCylinder(-1)" aria-label="이전 출전 요리" class="absolute left-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-lg border border-stone-200 text-stone-800 flex items-center justify-center z-30 active:scale-90 hover:bg-orange-50 transition-all">
+          <i class="fa-solid fa-chevron-left text-sm"></i>
+        </button>
+        <button onclick="rotateCylinder(1)" aria-label="다음 출전 요리" class="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-lg border border-stone-200 text-stone-800 flex items-center justify-center z-30 active:scale-90 hover:bg-orange-50 transition-all">
+          <i class="fa-solid fa-chevron-right text-sm"></i>
+        </button>
+      </div>
+
+      <div class="text-center mt-1">
+        <p class="text-[11px] text-stone-400 font-medium">화살표 클릭 또는 좌우 스와이프로 대결 요리를 넘겨보세요</p>
+      </div>
+    </section>
+
+    <!-- 5. 내 출전 요리 현황 카드 (등록 전/후 인터랙티브) -->
+    <section id="myBattleCardSection">
+      <!-- 출전 전 상태 (터치 시 등록 모달로 바로 진입) -->
+      <div id="myBattleEmpty" onclick="handleStartChallenge()" class="cursor-pointer bg-stone-50 border-2 border-dashed border-stone-300 hover:border-orange-400 rounded-2xl p-4 text-center space-y-2 transition-all active:scale-[0.99] group">
+        <div class="w-10 h-10 mx-auto rounded-full bg-orange-100 group-hover:bg-orange-200 text-orange-600 flex items-center justify-center text-lg transition-colors">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <div class="text-xs font-bold text-stone-700">
+          아직 이번 주 맛배틀에 출전하지 않으셨나요?
+        </div>
+        <p class="text-[11px] text-stone-500">
+          터치하여 내 요리 사진을 올리고 대결에 참가해 보세요!
+        </p>
+        <div class="pt-1">
+          <button type="button" class="inline-flex items-center gap-1.5 text-xs font-black text-white bg-orange-600 px-3.5 py-1.5 rounded-full shadow-xs">
+            <span>+ 내 요리 등록하고 대결 참가하기</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 출전 후 상태 (내 카드 노출) -->
+      <div id="myBattleActive" class="hidden bg-gradient-to-br from-orange-50 via-amber-50/50 to-white rounded-2xl p-4 border border-orange-200 shadow-sm space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black text-orange-600 flex items-center gap-1.5">
+            <i class="fa-solid fa-trophy"></i> 나의 출전 요리 현황
+          </span>
+          <span id="myRankBadge" class="text-[10px] bg-orange-600 text-white font-extrabold px-2.5 py-0.5 rounded-full">
+            대결 심사 중
+          </span>
+        </div>
+        <div class="flex gap-3 items-center pt-1">
+          <img id="myPhotoPreview" src="" class="w-16 h-16 rounded-xl object-cover border border-orange-200 shrink-0 shadow-2xs" alt="내 요리 사진" />
+          <div class="flex-1 min-w-0">
+            <h4 id="myDishTitle" class="font-extrabold text-stone-900 text-xs sm:text-sm truncate">요리명</h4>
+            <p id="myIngredientName" class="text-[11px] text-stone-500 truncate mt-0.5">사용한 식재료: -</p>
+            <div class="mt-1.5 flex items-center gap-2 text-xs">
+              <span class="text-stone-700">현재 득표: <strong id="myVoteCount" class="text-orange-600 font-black">1표</strong></span>
+              <span class="text-stone-300">|</span>
+              <span class="text-emerald-700 font-bold text-[11px] flex items-center gap-1">
+                <i class="fa-solid fa-circle-check"></i> 참가 완료
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 6. 하단 고정 참여 CTA 바 -->
+  <div class="fixed bottom-0 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-stone-200 z-30 shadow-lg">
+    <div class="max-w-md mx-auto">
+      <button onclick="handleStartChallenge()" class="w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-600 hover:to-amber-600 text-white font-black py-3.5 px-4 rounded-2xl shadow-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+        <span class="text-lg">🔥</span>
+        <span class="text-sm tracking-tight">내 요리 사진 올리고 대결 참가하기</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 모달 1. 알림톡 간편 로그인 모달 ==================== -->
+  <div id="loginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-xs sm:max-w-sm rounded-3xl p-5 shadow-2xl space-y-3.5">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-2.5">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <h3 class="text-sm font-extrabold text-stone-900">주문확인 1초 로그인</h3>
+        </div>
+        <button onclick="closeLoginModal()" class="w-7 h-7 rounded-full bg-stone-100 text-stone-400 hover:text-stone-700 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      </div>
+
+      <!-- 실제 수신 알림톡 그래픽 카드 (성함 & 뒷자리 4자리 1:1 매칭 시각화) -->
+      <div class="bg-stone-100/90 rounded-2xl p-2.5 border border-stone-200 text-xs">
+        <div class="bg-white rounded-xl shadow-xs border border-stone-200 overflow-hidden font-sans">
+          <!-- 알림톡 노란 상단 헤더 -->
+          <div class="bg-[#FEE500] px-3 py-2 flex items-center justify-between">
+            <span class="text-[11px] font-black text-stone-900 tracking-tight">알림톡 도착</span>
+            <span class="text-[9px] font-bold text-stone-700 bg-white/70 px-1.5 py-0.5 rounded">아이홈푸드</span>
+          </div>
+
+          <!-- 알림톡 본문 그래픽 -->
+          <div class="p-3 space-y-2">
+            <div class="text-center py-1">
+              <div class="w-9 h-7 mx-auto border-2 border-stone-800 rounded bg-amber-100 flex items-center justify-center relative mb-1">
+                <span class="w-3 h-2 border-b-2 border-r-2 border-stone-800 absolute top-0.5"></span>
+              </div>
+              <h4 class="text-sm font-black text-stone-900 tracking-tight">배송예정안내</h4>
+            </div>
+
+            <!-- 알림톡 인사말 (성함 매칭 영역) -->
+            <div class="text-[11px] text-stone-700 leading-snug bg-amber-50/70 p-1.5 rounded-lg border border-amber-200/60">
+              안녕하세요 <strong class="text-orange-600 bg-amber-200/80 px-1 py-0.2 rounded font-black">고객명</strong> 고객님<br>
+              주문하신 상품이 배송 준비중입니다.
+            </div>
+
+            <!-- 알림톡 리스트 항목들 -->
+            <div class="bg-stone-50 rounded-lg p-2 space-y-1 text-[10px] text-stone-600 font-sans border border-stone-100">
+              <p class="truncate"><span class="text-stone-400">■ 상품명 :</span> 주문하신 산지직송 식재료</p>
+              
+              <!-- 주문번호 하이라이트 박스 (뒷자리 4자리만 강조) -->
+              <div class="bg-amber-100 border border-amber-300 rounded p-1.5 flex items-center justify-between shadow-2xs">
+                <div class="font-mono text-stone-800 text-[11px]">
+                  <span class="text-stone-500 font-sans font-medium">■ 주문번호:</span> 202609181402<strong class="text-orange-600 font-black bg-white px-1 py-0.5 rounded shadow-2xs">0181</strong>
+                </div>
+                <span class="text-[9px] bg-orange-600 text-white font-extrabold px-1.5 py-0.5 rounded">
+                  뒷자리 4자리 ◀
+                </span>
+              </div>
+
+              <p class="truncate text-stone-400"><span class="text-stone-400">■ 택배사명 :</span> 롯데택배</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-stone-500 mt-2 text-center leading-tight">
+          💡 알림톡을 받으신 <strong>성함</strong>과 <strong>주문번호 뒷 4자리</strong>를 입력해 주세요.
+        </p>
+      </div>
+
+      <!-- 로그인 폼 (주문자 성함 + 주문번호 뒷 4자리) -->
+      <form onsubmit="handleLoginSubmit(event)" class="space-y-2.5">
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">
+            A. 주문자 성함 <span class="text-orange-600">*</span>
+          </label>
+          <input type="text" id="loginCustName" required placeholder="예: 홍길동" class="w-full px-3.5 py-2.5 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:border-stone-900 font-bold text-stone-900 placeholder:text-stone-400 transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">
+            B. 알림톡 주문번호 뒷자리 (숫자 4자리) <span class="text-orange-600">*</span>
+          </label>
+          <div class="relative">
+            <input type="text" id="loginOrderNo" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="예: 0181" class="w-full px-3.5 py-2.5 text-center text-sm bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:border-orange-500 font-mono tracking-widest font-black text-stone-900 placeholder:text-stone-400 transition-colors">
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-stone-400">4자리</span>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-xl font-bold text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5 mt-1">
+          <i class="fa-solid fa-arrow-right-to-bracket text-amber-400"></i>
+          <span>확인하고 바로 시작하기</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 모달 2. 요리 등록 모달 ==================== -->
+  <div id="submissionModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-3.5 max-h-[92vh] overflow-y-auto no-scrollbar">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-base">🍳</span>
+          <h3 class="text-sm font-extrabold text-stone-900">내 요리 등록하기</h3>
+        </div>
+        <button onclick="closeSubmissionModal()" class="w-7 h-7 rounded-full bg-stone-100 text-stone-400 hover:text-stone-700 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      </div>
+
+      <!-- 간결화된 안내 박스 -->
+      <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-2.5 flex items-start gap-2 text-xs">
+        <i class="fa-solid fa-gift text-orange-600 mt-0.5 text-xs shrink-0"></i>
+        <div class="text-[11px] text-stone-700 leading-snug">
+          당첨 시 원활한 경품 지급을 위해 주문자 정보를 정확히 입력해 주세요.
+        </div>
+      </div>
+
+      <!-- 요리 출전 양식 -->
+      <form onsubmit="handleDishSubmit(event)" class="space-y-3">
+        <!-- A. 주문자 성함 -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">
+            A. 주문자 성함 <span class="text-orange-600">*</span>
+          </label>
+          <input type="text" id="subName" required placeholder="예: 홍길동" class="w-full px-3.5 py-2.5 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:border-stone-900 font-semibold text-stone-800 transition-colors">
+        </div>
+
+        <!-- B. 휴대폰 번호 -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">
+            B. 휴대폰 번호 (경품 수령용) <span class="text-orange-600">*</span>
+          </label>
+          <input type="tel" id="subPhone" required placeholder="예: 010-1234-5678" class="w-full px-3.5 py-2.5 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:border-stone-900 font-medium text-stone-800 transition-colors">
+        </div>
+
+        <!-- C. 요리 사진 첨부 -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">
+            C. 요리 사진 첨부 <span class="text-orange-600">*</span>
+          </label>
+          <input type="file" id="subPhotoInput" accept="image/*" required onchange="handlePhotoSelect(event)" class="w-full p-2 border border-stone-300 rounded-xl text-stone-500 text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-orange-100 file:text-orange-800 cursor-pointer">
+          <div id="subPhotoPreviewBox" class="mt-2 hidden">
+            <img id="subPhotoImg" src="" class="w-full h-36 object-cover rounded-xl border border-stone-200 shadow-2xs" alt="사진 미리보기">
+          </div>
+        </div>
+
+        <!-- D. 사용한 우리 식재료 -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">
+            D. 사용한 우리 식재료 <span class="text-orange-600">*</span>
+          </label>
+          <input type="text" id="subIngredient" required placeholder="예: 여수 갓피클, 생들기름, 감태 등" class="w-full px-3.5 py-2.5 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:border-stone-900 font-semibold text-stone-800 transition-colors">
+        </div>
+
+        <!-- E. 어떤 요리인가요? -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-0.5">
+            E. 어떤 요리인가요? (요리 소개 &amp; 꿀조합 스토리) <span class="text-orange-600">*</span>
+          </label>
+          <div class="text-[10px] text-orange-600 font-bold mb-1">
+            자세할수록 득표율 UP!
+          </div>
+          <textarea id="subDishDesc" required rows="3" placeholder="예: 알싸한 갓피클의 산미가 삼겹살의 기름진 맛을 완벽하게 잡아줍니다! 청양고추와 고추냉이를 살짝 얹어 드셔보세요." class="w-full px-3 py-2 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:border-stone-900 text-stone-800 placeholder:text-stone-400 transition-colors resize-none"></textarea>
+        </div>
+
+        <!-- F. 마케팅 활용 약관 (2줄 압축) -->
+        <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 space-y-1.5">
+          <p class="text-[10px] text-stone-500 leading-snug">
+            등록하신 사진과 후기는 당사의 SNS, 자사몰, 광고 홍보 콘텐츠로 2차 활용될 수 있습니다.
+          </p>
+          <label class="flex items-center gap-2 cursor-pointer pt-0.5">
+            <input type="checkbox" id="marketingAgree" checked required class="w-3.5 h-3.5 rounded text-orange-600 focus:ring-orange-500">
+            <span class="text-[11px] font-bold text-stone-800">사진 및 후기의 마케팅 활용에 동의합니다. (필수)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl font-black text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5">
+          <span>대결 출전 등록 완료 🚀</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 모달 3. 사장님 시크릿 관리자 모달 (1214) ==================== -->
+  <div id="adminModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+    <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl space-y-3.5 max-h-[92vh] overflow-y-auto no-scrollbar">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="w-7 h-7 rounded-xl bg-orange-600 text-white flex items-center justify-center text-xs font-black">1214</span>
+          <h3 class="text-sm font-extrabold text-stone-900">사장님 시크릿 관리 센터</h3>
+        </div>
+        <button onclick="closeAdminModal()" class="w-7 h-7 rounded-full bg-stone-100 text-stone-400 hover:text-stone-700 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      </div>
+
+      <!-- 탭 메뉴 -->
+      <div class="flex border-b border-stone-200 text-xs">
+        <button id="tabBtnCust" onclick="switchAdminTab('customers')" class="flex-1 py-2 font-black border-b-2 border-orange-500 text-orange-600">
+          A. 참여 고객 &amp; 주문 검증 (<span id="adminCustCount">0</span>)
+        </button>
+        <button id="tabBtnLinks" onclick="switchAdminTab('links')" class="flex-1 py-2 font-bold text-stone-400 hover:text-stone-700">
+          B. 상품 구매 URL 매핑 (<span id="adminDishCount">0</span>)
+        </button>
+      </div>
+
+      <!-- 탭 1. 참여 고객 명단 및 엑셀 다운로드 -->
+      <div id="tabContentCust" class="space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-[11px] text-stone-500">주문번호 뒷자리와 연락처를 대조하여 경품을 발송하세요.</p>
+          <button onclick="exportToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg flex items-center gap-1 shadow-xs active:scale-95 transition">
+            <i class="fa-solid fa-file-excel"></i>
+            <span>엑셀(CSV) 저장</span>
+          </button>
+        </div>
+        <div class="overflow-x-auto border border-stone-200 rounded-xl">
+          <table class="w-full text-left text-[11px]">
+            <thead class="bg-stone-50 text-stone-600 font-bold border-b border-stone-200">
+              <tr>
+                <th class="p-2">성함</th>
+                <th class="p-2">연락처/주문번호</th>
+                <th class="p-2">식재료/요리명</th>
+                <th class="p-2">득표</th>
+                <th class="p-2">등록일시</th>
+              </tr>
+            </thead>
+            <tbody id="adminCustomerTableBody" class="divide-y divide-stone-100 text-stone-700">
+              <!-- JS 동적 생성 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 탭 2. 상품 링크 매핑 -->
+      <div id="tabContentLinks" class="hidden space-y-3">
+        <p class="text-[11px] text-stone-500">
+          각 출전 요리 카드의 <strong>[사용한 재료 보기]</strong> 클릭 시 이동할 스마트스토어 URL을 지정합니다.
+        </p>
+        <div id="adminDishLinkInputs" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+          <!-- JS 동적 생성 -->
+        </div>
+        <button onclick="saveDishLinks()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs py-2.5 rounded-xl shadow-xs active:scale-95 transition">
+          상품 링크 설정 저장하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 자바스크립트 엔진 ==================== -->
+  <script>
+    // 기본 도전자 요리 데이터 (5개 요리로 구성)
+    const DEFAULT_BATTLE_ITEMS = [
+      {
+        id: 1,
+        title: "여수 갓피클 수육 쌈",
+        ingredient: "여수 갓피클",
+        desc: "알싸한 갓피클이 기름진 수육 맛을 개운하게 잡아줍니다.",
+        photo: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+        votes: 428,
+        productName: "여수 돌산 갓피클 1kg 세트",
+        productUrl: "https://smartstore.naver.com"
+      },
+      {
+        id: 2,
+        title: "생들기름 메밀 비빔국수",
+        ingredient: "저온압착 생들기름",
+        desc: "고소한 저온압착 생들기름과 짭조름한 김가루의 조화!",
+        photo: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
+        votes: 395,
+        productName: "100% 국산 저온착유 생들기름",
+        productUrl: "https://smartstore.naver.com"
+      },
+      {
+        id: 3,
+        title: "완도 감태 주먹밥",
+        ingredient: "구운 감태",
+        desc: "바다 향 가득한 감태를 감싼 담백한 참치마요 주먹밥.",
+        photo: "https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=600&q=80",
+        votes: 362,
+        productName: "청정 완도 자연산 구운 감태",
+        productUrl: "https://smartstore.naver.com"
+      },
+      {
+        id: 4,
+        title: "꿀고구마 바스크 치즈케이크",
+        ingredient: "베니하루카 꿀고구마",
+        desc: "설탕 없이 자연 꿀고구마 당도로 구워낸 진한 디저트.",
+        photo: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=600&q=80",
+        votes: 310,
+        productName: "해남 베니하루카 꿀고구마 3kg",
+        productUrl: "https://smartstore.naver.com"
+      },
+      {
+        id: 5,
+        title: "제주 당근 라페 샌드위치",
+        ingredient: "제주 흙당근",
+        desc: "아삭한 식감과 새콤달콤한 소스로 만든 신선하고 건강한 브런치!",
+        photo: "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?auto=format&fit=crop&w=600&q=80",
+        votes: 284,
+        productName: "제주 구좌 유기농 흙당근 3kg",
+        productUrl: "https://smartstore.naver.com"
+      }
+    ];
+
+    // 저장소 키
+    const STORAGE_KEY_ITEMS = "food_battle_dishes_v4";
+    const STORAGE_KEY_CUSTOMERS = "food_battle_cust_v4";
+    const STORAGE_KEY_AUTH = "food_battle_auth_user_v4";
+    const STORAGE_KEY_VOTES = "food_battle_voted_history_v4";
+
+    // 전역 상태
+    let battleItems = [];
+    let customerList = [];
+    let loggedUser = null; // { name, orderNo }
+    let activeCardIndex = 0; // 현재 정면을 바라보는 카드의 고유 인덱스
+    let cylinderAngle = 0; // 3D 회전 누적 각도
+    let pendingSubmissionFlow = false; // 로그인 후 즉시 출전창 띄우기 여부
+    let votedDishIds = []; // 중복 투표 방지용 목록
+    let isVotingProcess = false; // 연타 방지 락(Debounce) 플래그
+
+    // 고객 성함 가운데 마스킹 함수 (홍길동 -> 홍*동, 이산 -> 이*, 남궁민수 -> 남**수)
+    function maskCustomerName(name) {
+      if (!name) return "";
+      const trimmed = name.trim();
+      const len = trimmed.length;
+      if (len <= 1) return trimmed;
+      if (len === 2) return trimmed[0] + "*";
+      const middleStars = "*".repeat(len - 2);
+      return trimmed[0] + middleStars + trimmed[len - 1];
+    }
+
+    // 관리자 3회 탭 감지
+    let adminTapCount = 0;
+    let adminTapTimer = null;
+
+    // 터치 스와이프 감지
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadStorageData();
+      initAdminSecret();
+      initTouchGestures();
+      renderAll();
+    });
+
+    function loadStorageData() {
+      try {
+        const storedItems = localStorage.getItem(STORAGE_KEY_ITEMS);
+        if (storedItems) {
+          const parsed = JSON.parse(storedItems);
+          battleItems = parsed.length >= 5 ? parsed : DEFAULT_BATTLE_ITEMS;
+        } else {
+          battleItems = DEFAULT_BATTLE_ITEMS;
+        }
+
+        const storedCustomers = localStorage.getItem(STORAGE_KEY_CUSTOMERS);
+        customerList = storedCustomers ? JSON.parse(storedCustomers) : [
+          { name: "홍길동", phone: "010-8921-1402", orderNo: "*0181", ingredient: "여수 갓피클", dishTitle: "여수 갓피클 수육 쌈", votes: 428, date: "2026-09-28 14:20" },
+          { name: "김민재", phone: "010-3321-7788", orderNo: "*7788", ingredient: "생들기름", dishTitle: "생들기름 메밀 비빔국수", votes: 395, date: "2026-09-29 11:05" }
+        ];
+
+        const storedAuth = localStorage.getItem(STORAGE_KEY_AUTH);
+        if (storedAuth) {
+          loggedUser = JSON.parse(storedAuth);
+          updateAuthUI();
+        }
+
+        // 중복 투표 데이터 로드 (금일 날짜 기준)
+        const storedVotes = localStorage.getItem(STORAGE_KEY_VOTES);
+        const todayStr = new Date().toISOString().slice(0, 10);
+        if (storedVotes) {
+          const voteData = JSON.parse(storedVotes);
+          if (voteData.date === todayStr && Array.isArray(voteData.ids)) {
+            votedDishIds = voteData.ids;
+          } else {
+            votedDishIds = [];
+            localStorage.removeItem(STORAGE_KEY_VOTES);
+          }
+        }
+      } catch (err) {
+        battleItems = DEFAULT_BATTLE_ITEMS;
+        customerList = [];
+        votedDishIds = [];
+      }
+    }
+
+    function saveBattleItems() {
+      localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(battleItems));
+    }
+    function saveCustomerList() {
+      localStorage.setItem(STORAGE_KEY_CUSTOMERS, JSON.stringify(customerList));
+    }
+    function saveVotedHistory() {
+      const todayStr = new Date().toISOString().slice(0, 10);
+      localStorage.setItem(STORAGE_KEY_VOTES, JSON.stringify({
+        date: todayStr,
+        ids: votedDishIds
+      }));
+    }
+
+    function renderAll() {
+      renderTop3();
+      renderCylinderArena();
+      updateParticipantBadge();
+    }
+
+    function renderTop3() {
+      const sorted = [...battleItems].sort((a, b) => b.votes - a.votes).slice(0, 3);
+      const top3Container = document.getElementById("top3List");
+      if (!top3Container) return;
+      top3Container.innerHTML = "";
+
+      const rankBadges = [
+        { label: "1위 👑", bg: "bg-amber-400 text-stone-900 border-amber-300" },
+        { label: "2위 🥈", bg: "bg-stone-300 text-stone-800 border-stone-200" },
+        { label: "3위 🥉", bg: "bg-amber-700 text-white border-amber-600" }
+      ];
+
+      sorted.forEach((item, index) => {
+        const badge = rankBadges[index];
+        const card = document.createElement("div");
+        card.className = "relative bg-stone-50 rounded-xl p-2 border border-stone-200/80 flex flex-col items-center text-center shadow-2xs";
+        card.innerHTML = `
+          <span class="absolute -top-2 left-2 ${badge.bg} text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-xs border">
+            ${badge.label}
+          </span>
+          <img src="${item.photo}" class="w-full h-16 object-cover rounded-lg mt-1 mb-1.5" alt="${item.title}" onerror="this.src='https://placehold.co/300x200/eee/888?text=Food'" />
+          <h4 class="text-xs font-bold text-stone-800 truncate w-full">${item.title}</h4>
+          <span class="text-[11px] text-orange-600 font-black mt-0.5">❤️ ${item.votes}표</span>
+        `;
+        top3Container.appendChild(card);
+      });
+    }
+
+    function renderCylinderArena() {
+      const container = document.getElementById("cylinderContainer");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const n = battleItems.length;
+      if (n === 0) return;
+
+      const cardWidth = 250;
+      const anglePerCard = 360 / n;
+      const radius = Math.max(260, Math.round((cardWidth / 2) / Math.tan(Math.PI / n)));
+
+      battleItems.forEach((item, idx) => {
+        const theta = anglePerCard * idx;
+        const cardWrapper = document.createElement("div");
+        cardWrapper.id = `cylinderCard_${idx}`;
+        cardWrapper.className = "cylinder-card absolute top-0 left-0 w-[250px] h-[365px] bg-white rounded-2xl shadow-xl border border-stone-200 p-3.5 flex flex-col justify-between transition-opacity duration-300";
+        cardWrapper.style.transform = `rotateY(${theta}deg) translateZ(${radius}px)`;
+
+        const isVoted = votedDishIds.includes(item.id);
+
+        cardWrapper.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="bg-stone-900 text-white font-black text-[11px] px-2.5 py-0.5 rounded-full shadow-2xs">
+                도전자 ${idx + 1}
+              </span>
+              <span class="text-xs font-black text-orange-600 flex items-center gap-1">
+                <i class="fa-solid fa-heart text-[11px]"></i> ${item.votes}
+              </span>
+            </div>
+
+            <!-- 요리 사진 영역 & 사용한 재료 보기 버튼 -->
+            <div class="relative group cursor-pointer overflow-hidden rounded-xl h-[152px] bg-stone-100" onclick="goToStore('${item.productUrl || ''}')">
+              <img src="${item.photo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="${item.title}" onerror="this.src='https://placehold.co/400x300/eee/888?text=Dish'" />
+              <span class="absolute bottom-2 right-2 bg-stone-900/80 hover:bg-orange-600 text-white text-[10px] font-bold px-2 py-1 rounded-lg backdrop-blur-sm flex items-center gap-1 shadow-xs transition-colors">
+                <span>사용한 재료 보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+              </span>
+            </div>
+
+            <div class="mt-2.5">
+              <h4 class="font-black text-sm text-stone-900 truncate leading-tight">${item.title}</h4>
+              <p class="text-[11px] text-stone-500 truncate mt-0.5">
+                사용한 재료: <span class="font-bold text-stone-700">${item.ingredient}</span>
+              </p>
+              ${item.desc ? `<p class="text-[10px] text-stone-400 line-clamp-1 mt-0.5">${item.desc}</p>` : ''}
+            </div>
+          </div>
+
+          <!-- 하단 투표 버튼 (중복 투표 방지 처리) -->
+          <button onclick="voteDish(${item.id})" class="w-full ${isVoted ? 'bg-stone-200 text-stone-500 cursor-not-allowed border border-stone-300' : 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-xs active:scale-95'} text-xs font-black py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all">
+            <i class="fa-solid ${isVoted ? 'fa-check text-emerald-600' : 'fa-heart text-amber-100'} text-xs"></i>
+            <span>${isVoted ? '오늘 투표 완료' : '이 요리에 투표하기'}</span>
+          </button>
+        `;
+
+        container.appendChild(cardWrapper);
+      });
+
+      applyCylinderRotation();
+    }
+
+    function rotateCylinder(direction) {
+      const n = battleItems.length;
+      if (n === 0) return;
+      activeCardIndex = (activeCardIndex + direction + n) % n;
+      cylinderAngle -= direction * (360 / n);
+      applyCylinderRotation();
+    }
+
+    function applyCylinderRotation() {
+      const container = document.getElementById("cylinderContainer");
+      if (!container) return;
+      const n = battleItems.length;
+      if (n === 0) return;
+
+      const radius = Math.max(260, Math.round((250 / 2) / Math.tan(Math.PI / n)));
+      container.style.transform = `translateZ(-${radius}px) rotateY(${cylinderAngle}deg)`;
+
+      // 정면 카드(0도)와 측면 카드의 원근 및 입체 명암 처리
+      battleItems.forEach((_, idx) => {
+        const card = document.getElementById(`cylinderCard_${idx}`);
+        if (!card) return;
+
+        let diff = Math.abs((idx - activeCardIndex + n) % n);
+        if (diff > n / 2) diff = n - diff;
+
+        if (diff === 0) {
+          card.style.opacity = "1";
+          card.style.filter = "none";
+          card.style.pointerEvents = "auto";
+          card.style.zIndex = "20";
+        } else if (diff === 1) {
+          card.style.opacity = "0.75";
+          card.style.filter = "brightness(0.92)";
+          card.style.pointerEvents = "auto";
+          card.style.zIndex = "10";
+        } else {
+          card.style.opacity = "0.2";
+          card.style.filter = "brightness(0.75)";
+          card.style.pointerEvents = "none";
+          card.style.zIndex = "5";
+        }
+      });
+    }
+
+    function updateParticipantBadge() {
+      const countEl = document.getElementById("participantCountText");
+      if (countEl) {
+        countEl.innerText = `총 ${battleItems.length}개 출전 중`;
+      }
+    }
+
+    function initTouchGestures() {
+      const viewport = document.getElementById("cylinderViewport");
+      if (!viewport) return;
+
+      viewport.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      viewport.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }, { passive: true });
+    }
+
+    function handleSwipeGesture() {
+      const diffX = touchEndX - touchStartX;
+      if (Math.abs(diffX) > 40) {
+        if (diffX < 0) {
+          rotateCylinder(1);
+        } else {
+          rotateCylinder(-1);
+        }
+      }
+    }
+
+    function voteDish(dishId) {
+      if (isVotingProcess) return;
+
+      if (votedDishIds.includes(dishId)) {
+        showToast("이미 오늘 투표를 완료하신 요리입니다! (내일 다시 참여 가능) ✋");
+        return;
+      }
+
+      if (votedDishIds.length >= 5) {
+        showToast("오늘은 이미 5개 요리에 모두 투표하셨습니다! 내일 다시 참여해 주세요. 🌟");
+        return;
+      }
+
+      isVotingProcess = true;
+
+      const target = battleItems.find(d => d.id === dishId);
+      if (target) {
+        target.votes += 1;
+        votedDishIds.push(dishId);
+        saveVotedHistory();
+        saveBattleItems();
+        renderAll();
+        showToast(`'${target.title}' 요리에 소중한 1표를 전달했습니다! (현재 ${target.votes}표) ❤️️`);
+      }
+
+      setTimeout(() => {
+        isVotingProcess = false;
+      }, 400);
+    }
+
+    function goToStore(url) {
+      if (!url || url.trim() === "") {
+        showToast("등록된 상품 링크가 준비 중입니다.");
+        return;
+      }
+      window.open(url, "_blank");
+    }
+
+    function handleStartChallenge() {
+      if (!loggedUser) {
+        pendingSubmissionFlow = true;
+        showToast("대결 참여를 위해 성함과 주문번호를 먼저 확인해 주세요! 💡");
+        openLoginModal();
+      } else {
+        openSubmissionModal();
+      }
+    }
+
+    function openLoginModal() {
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const custName = document.getElementById('loginCustName').value.trim();
+      const orderLast4 = document.getElementById('loginOrderNo').value.trim();
+
+      if (!custName) {
+        showToast("주문자 성함을 입력해 주세요.");
+        return;
+      }
+
+      if (!/^\d{4}$/.test(orderLast4)) {
+        showToast("주문번호 뒷자리 숫자 4자리를 정확히 입력해 주세요.");
+        return;
+      }
+
+      loggedUser = { name: custName, orderNo: orderLast4 };
+      localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(loggedUser));
+      updateAuthUI();
+      closeLoginModal();
+      showToast(`${custName} 님, 주문확인(#${orderLast4}) 완료! 🎉`);
+
+      if (pendingSubmissionFlow) {
+        pendingSubmissionFlow = false;
+        setTimeout(() => {
+          openSubmissionModal();
+        }, 350);
+      }
+    }
+
+    function updateAuthUI() {
+      const authArea = document.getElementById('authStatusArea');
+      if (loggedUser && authArea) {
+        const maskedName = maskCustomerName(loggedUser.name);
+        authArea.innerHTML = `
+          <div class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-emerald-800 text-xs font-black shadow-2xs">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>${maskedName} (#${loggedUser.orderNo})</span>
+          </div>
+        `;
+        const subName = document.getElementById('subName');
+        if (subName && !subName.value) subName.value = loggedUser.name;
+      }
+    }
+
+    let uploadedPhotoBase64 = "";
+
+    function openSubmissionModal() {
+      if (loggedUser) {
+        const subName = document.getElementById('subName');
+        if (subName) subName.value = loggedUser.name;
+      }
+      document.getElementById('submissionModal').classList.remove('hidden');
+    }
+    function closeSubmissionModal() {
+      document.getElementById('submissionModal').classList.add('hidden');
+    }
+
+    function handlePhotoSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        uploadedPhotoBase64 = evt.target.result;
+        document.getElementById('subPhotoImg').src = uploadedPhotoBase64;
+        document.getElementById('subPhotoPreviewBox').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleDishSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('subName').value.trim();
+      const phone = document.getElementById('subPhone').value.trim();
+      const ingredient = document.getElementById('subIngredient').value.trim();
+      const desc = document.getElementById('subDishDesc').value.trim();
+      const agree = document.getElementById('marketingAgree').checked;
+
+      if (!agree) {
+        showToast("마케팅 활용 동의가 필요합니다.");
+        return;
+      }
+      if (!uploadedPhotoBase64) {
+        showToast("요리 사진을 첨부해 주세요.");
+        return;
+      }
+
+      const maskedName = maskCustomerName(name);
+      const dishTitle = `${ingredient} 요리 (${maskedName}님)`;
+      const newId = Date.now();
+
+      const newDish = {
+        id: newId,
+        title: dishTitle,
+        ingredient: ingredient,
+        desc: desc,
+        photo: uploadedPhotoBase64,
+        votes: 1,
+        productName: ingredient,
+        productUrl: "https://smartstore.naver.com"
+      };
+
+      // 아레나 1번으로 등록
+      battleItems.unshift(newDish);
+      saveBattleItems();
+
+      // 고객 리스트 추가
+      const nowStr = new Date().toISOString().replace('T', ' ').slice(0, 16);
+      customerList.unshift({
+        name: name,
+        phone: phone,
+        orderNo: loggedUser ? `*${loggedUser.orderNo}` : "미기재",
+        ingredient: ingredient,
+        dishTitle: dishTitle,
+        votes: 1,
+        date: nowStr
+      });
+      saveCustomerList();
+
+      // 신규 등록 요리가 정면을 바라보도록 인덱스 및 회전 각도 초기화
+      activeCardIndex = 0;
+      cylinderAngle = 0;
+
+      showMySubmissionCard(newDish, ingredient);
+      closeSubmissionModal();
+      renderAll();
+      showToast("대결 출전 등록이 완료되었습니다! 1번 카드로 배치되었습니다. 🚀");
+
+      // 폼 리셋
+      document.getElementById('subPhotoPreviewBox').classList.add('hidden');
+      document.getElementById('subPhotoInput').value = "";
+      document.getElementById('subDishDesc').value = "";
+      uploadedPhotoBase64 = "";
+    }
+
+    function showMySubmissionCard(dish, ingredient) {
+      const emptyBox = document.getElementById('myBattleEmpty');
+      const activeBox = document.getElementById('myBattleActive');
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      document.getElementById('myPhotoPreview').src = dish.photo;
+      document.getElementById('myDishTitle').innerText = dish.title;
+      document.getElementById('myIngredientName').innerText = `사용한 식재료: ${ingredient}`;
+      document.getElementById('myVoteCount').innerText = `${dish.votes}표`;
+    }
+
+    function initAdminSecret() {
+      const btn = document.getElementById('adminTriggerBtn');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        adminTapCount++;
+        clearTimeout(adminTapTimer);
+        adminTapTimer = setTimeout(() => { adminTapCount = 0; }, 900);
+
+        if (adminTapCount >= 3) {
+          adminTapCount = 0;
+          openAdminPasswordModal();
+        }
+      });
+    }
+
+    function openAdminPasswordModal() {
+      const pwd = window.prompt("사장님 관리자 비밀번호 4자리를 입력하세요:");
+      if (pwd === "1214") {
+        openAdminModal();
+      } else if (pwd !== null) {
+        showToast("비밀번호가 올바르지 않습니다.");
+      }
+    }
+
+    function openAdminModal() {
+      document.getElementById('adminModal').classList.remove('hidden');
+      switchAdminTab('customers');
+      renderAdminCustomers();
+      renderAdminDishLinks();
+    }
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function switchAdminTab(tab) {
+      const tabCust = document.getElementById('tabBtnCust');
+      const tabLinks = document.getElementById('tabBtnLinks');
+      const contentCust = document.getElementById('tabContentCust');
+      const contentLinks = document.getElementById('tabContentLinks');
+
+      if (tab === 'customers') {
+        tabCust.className = "flex-1 py-2 font-black border-b-2 border-orange-500 text-orange-600";
+        tabLinks.className = "flex-1 py-2 font-bold text-stone-400 hover:text-stone-700";
+        contentCust.classList.remove('hidden');
+        contentLinks.classList.add('hidden');
+        renderAdminCustomers();
+      } else {
+        tabLinks.className = "flex-1 py-2 font-black border-b-2 border-orange-500 text-orange-600";
+        tabCust.className = "flex-1 py-2 font-bold text-stone-400 hover:text-stone-700";
+        contentLinks.classList.remove('hidden');
+        contentCust.classList.add('hidden');
+        renderAdminDishLinks();
+      }
+    }
+
+    function renderAdminCustomers() {
+      document.getElementById('adminCustCount').innerText = customerList.length;
+      const tbody = document.getElementById('adminCustomerTableBody');
+      tbody.innerHTML = "";
+
+      if (customerList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-stone-400">참여 고객이 없습니다.</td></tr>`;
+        return;
+      }
+
+      customerList.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-stone-50";
+        tr.innerHTML = `
+          <td class="p-2 font-black text-stone-900">${c.name}</td>
+          <td class="p-2 font-mono text-[10px] text-stone-600 leading-tight">
+            <div>${c.phone}</div>
+            <div class="text-orange-600 font-bold">${c.orderNo || '-'}</div>
+          </td>
+          <td class="p-2">
+            <div class="font-bold text-stone-800">${c.dishTitle}</div>
+            <div class="text-[10px] text-stone-400">${c.ingredient}</div>
+          </td>
+          <td class="p-2 font-black text-orange-600">${c.votes}</td>
+          <td class="p-2 text-[10px] text-stone-400 whitespace-nowrap">${c.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderAdminDishLinks() {
+      document.getElementById('adminDishCount').innerText = battleItems.length;
+      const box = document.getElementById('adminDishLinkInputs');
+      box.innerHTML = "";
+
+      battleItems.forEach((dish, idx) => {
+        const div = document.createElement('div');
+        div.className = "p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-1.5";
+        div.innerHTML = `
+          <div class="flex items-center justify-between text-xs font-bold text-stone-800">
+            <span>도전자 ${idx + 1}: ${dish.title}</span>
+            <span class="text-[10px] text-stone-400">재료: ${dish.ingredient}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <input type="text" id="prodName_${dish.id}" value="${dish.productName || ''}" placeholder="상품명" class="p-2 border border-stone-300 rounded-lg bg-white outline-none focus:border-stone-900" />
+            <input type="url" id="prodUrl_${dish.id}" value="${dish.productUrl || ''}" placeholder="스마트스토어 URL" class="p-2 border border-stone-300 rounded-lg bg-white outline-none focus:border-stone-900 font-mono text-[11px]" />
+          </div>
+        `;
+        box.appendChild(div);
+      });
+    }
+
+    function saveDishLinks() {
+      battleItems.forEach(dish => {
+        const nameInput = document.getElementById(`prodName_${dish.id}`);
+        const urlInput = document.getElementById(`prodUrl_${dish.id}`);
+        if (nameInput) dish.productName = nameInput.value.trim();
+        if (urlInput) dish.productUrl = urlInput.value.trim();
+      });
+      saveBattleItems();
+      renderAll();
+      showToast("모든 출전 요리의 스마트스토어 링크가 저장되었습니다!");
+      closeAdminModal();
+    }
+
+    function exportToCSV() {
+      if (customerList.length === 0) {
+        showToast("내보낼 참여자 데이터가 없습니다.");
+        return;
+      }
+      let csvContent = "\uFEFF고객성함,휴대폰번호,주문번호,식재료,요리명,득표수,등록일시\n";
+      customerList.forEach(c => {
+        csvContent += `"${c.name}","${c.phone}","${c.orderNo}","${c.ingredient}","${c.dishTitle}","${c.votes}","${c.date}"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `맛배틀_참여고객명단_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("엑셀(CSV) 다운로드가 시작되었습니다.");
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = "bg-stone-900/90 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-2xl backdrop-blur-sm pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-1.5";
+      toast.innerHTML = `<span>${msg}</span>`;
+
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-1');
+        setTimeout(() => toast.remove(), 300);
+      }, 2400);
+    }
+  </script>
+</body>
+</html>
+```
